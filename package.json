@@ -1,0 +1,37 @@
+{
+  "name": "electron-simple-todo-app",
+  "version": "1.0.0",
+  "description": "A Simple ToDo application using Electron",
+  "main": "./build/main.js",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "start": "yarn build && electron build/main.js",
+    "restart": "electron build/main.js",
+    "test": "jest src",
+    "coverage": "jest --coverage src",
+    "type-check": "tsc --noEmit",
+    "type-check:watch": "yarn type-check -- --watch",
+    "build": "rimraf build && yarn build:types & yarn build:js & cp -r public/* build",
+    "build:types": "tsc --emitDeclarationOnly",
+    "build:js": "babel src --out-dir build --extensions \".ts,.tsx\" --source-maps inline"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.8.4",
+    "@babel/core": "^7.9.0",
+    "@babel/plugin-proposal-class-properties": "^7.8.3",
+    "@babel/preset-env": "^7.9.5",
+    "@babel/preset-typescript": "^7.9.0",
+    "@typescript-eslint/eslint-plugin": "^2.27.0",
+    "@typescript-eslint/parser": "^2.27.0",
+    "eslint": "^6.8.0",
+    "eslint-config-prettier": "^6.10.1",
+    "jest": "^25.3.0",
+    "rimraf": "^3.0.2",
+    "typescript": "^3.8.3"
+  },
+  "dependencies": {
+    "@types/jest": "^25.2.1",
+    "electron": "^8.2.1"
+  }
+}
