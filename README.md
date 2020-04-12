@@ -12,4 +12,4 @@ This is a very simple version of an electron todo app. The purpose wasn't to bui
 
 - Prettier support
 
-- Jest for testing (only dummy test exists)
+- Jest for testing (only one dummy test exists)
