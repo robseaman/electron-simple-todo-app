@@ -2,11 +2,33 @@
 import { app, BrowserWindow, Menu, ipcMain } from "electron";
 import path from "path";
 
+const isMac = process.platform === "darwin";
+
 let mainWindow: BrowserWindow | null;
 let addWindow: BrowserWindow | null;
 let versionsWindow: BrowserWindow | null;
 
-const menuTemplate: Electron.MenuItemConstructorOptions[] = [
+const menuTemplate = [
+  // { role: 'appMenu' }
+  ...(isMac
+    ? [
+        {
+          label: app.name,
+          submenu: [
+            { role: "about" },
+            { type: "separator" },
+            { role: "services" },
+            { type: "separator" },
+            { role: "hide" },
+            { role: "hideothers" },
+            { role: "unhide" },
+            { type: "separator" },
+            { role: "quit" },
+          ],
+        },
+      ]
+    : []),
+  // { role: 'fileMenu' }
   {
     label: "File",
     submenu: [
@@ -26,20 +48,10 @@ const menuTemplate: Electron.MenuItemConstructorOptions[] = [
           if (mainWindow) mainWindow.webContents.send("todo:clear");
         },
       },
-      {
-        label: "Quit",
-        accelerator: process.platform === "darwin" ? "Command+Q" : "Ctrl+Q",
-        click(): void {
-          app.quit();
-        },
-      },
+      isMac ? { role: "close" } : { role: "quit" },
     ],
   },
 ];
-
-if (process.platform === "darwin") {
-  menuTemplate.unshift({} as Electron.MenuItemConstructorOptions);
-}
 
 if (process.env.NODE_ENV !== "production") {
   menuTemplate.push({
@@ -99,6 +111,7 @@ function createVersionsWindow(): void {
   });
   versionsWindow.removeMenu();
   versionsWindow.loadFile("versions.html");
+  versionsWindow.on("closed", () => (versionsWindow = null));
 }
 
 // This method will be called when Electron has finished
@@ -106,7 +119,9 @@ function createVersionsWindow(): void {
 // Some APIs can only be used after this event occurs.
 app.whenReady().then(createMainWindow);
 
-const mainMenu = Menu.buildFromTemplate(menuTemplate);
+const mainMenu = Menu.buildFromTemplate(
+  menuTemplate as Electron.MenuItemConstructorOptions[]
+);
 Menu.setApplicationMenu(mainMenu);
 
 ipcMain.on("todo:add", (event, todo) => {
@@ -118,7 +133,7 @@ ipcMain.on("todo:add", (event, todo) => {
 app.on("window-all-closed", function () {
   // On macOS it is common for applications and their menu bar
   // to stay active until the user quits explicitly with Cmd + Q
-  if (process.platform !== "darwin") app.quit();
+  if (isMac) app.quit();
 });
 
 app.on("activate", function () {

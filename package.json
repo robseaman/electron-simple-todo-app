@@ -12,7 +12,7 @@
     "coverage": "jest --coverage src",
     "type-check": "tsc --noEmit",
     "type-check:watch": "yarn type-check -- --watch",
-    "build": "rimraf build && yarn build:types & yarn build:js & cp -r public/* build",
+    "build": "rimraf build && yarn build:types && yarn build:js && cp -r public/* build",
     "build:types": "tsc --emitDeclarationOnly",
     "build:js": "babel src --out-dir build --extensions \".ts,.tsx\" --source-maps inline"
   },
