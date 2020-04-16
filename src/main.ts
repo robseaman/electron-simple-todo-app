@@ -8,26 +8,11 @@ let mainWindow: BrowserWindow | null;
 let addWindow: BrowserWindow | null;
 let versionsWindow: BrowserWindow | null;
 
-const menuTemplate = [
+const macAppMenu: Electron.MenuItemConstructorOptions = { role: "appMenu" };
+
+const menuTemplate: Electron.MenuItemConstructorOptions[] = [
   // { role: 'appMenu' }
-  ...(isMac
-    ? [
-        {
-          label: app.name,
-          submenu: [
-            { role: "about" },
-            { type: "separator" },
-            { role: "services" },
-            { type: "separator" },
-            { role: "hide" },
-            { role: "hideothers" },
-            { role: "unhide" },
-            { type: "separator" },
-            { role: "quit" },
-          ],
-        },
-      ]
-    : []),
+  ...(isMac ? [macAppMenu] : []),
   // { role: 'fileMenu' }
   {
     label: "File",
@@ -119,9 +104,7 @@ function createVersionsWindow(): void {
 // Some APIs can only be used after this event occurs.
 app.whenReady().then(createMainWindow);
 
-const mainMenu = Menu.buildFromTemplate(
-  menuTemplate as Electron.MenuItemConstructorOptions[]
-);
+const mainMenu = Menu.buildFromTemplate(menuTemplate);
 Menu.setApplicationMenu(mainMenu);
 
 ipcMain.on("todo:add", (event, todo) => {
