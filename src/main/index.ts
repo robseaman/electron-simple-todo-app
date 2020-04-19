@@ -62,10 +62,9 @@ function createMainWindow(): void {
   mainWindow = new BrowserWindow({
     webPreferences: {
       nodeIntegration: true,
-      preload: path.join(__dirname, "preload.js"),
     },
   });
-  mainWindow.loadURL(`file://${__dirname}/index.html`);
+  mainWindow.loadURL(`file://${__dirname}/../index.html`);
   mainWindow.on("closed", () => app.quit());
   // Open the DevTools.
   // mainWindow.webContents.openDevTools()
@@ -81,7 +80,7 @@ function createAddWindow(): void {
     },
   });
   addWindow.removeMenu();
-  addWindow.loadURL(`file://${__dirname}/add.html`);
+  addWindow.loadURL(`file://${__dirname}/../add.html`);
   addWindow.on("closed", () => (addWindow = null));
 }
 
@@ -91,7 +90,7 @@ function createVersionsWindow(): void {
     width: 300,
     height: 540,
     webPreferences: {
-      preload: path.join(__dirname, "versionsPreload.js"),
+      preload: path.join(__dirname, "renderer/versionsPreload.js"),
     },
   });
   versionsWindow.removeMenu();

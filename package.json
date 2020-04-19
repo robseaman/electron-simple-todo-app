@@ -2,19 +2,22 @@
   "name": "electron-simple-todo-app",
   "version": "1.0.0",
   "description": "A Simple ToDo application using Electron",
-  "main": "./build/main.js",
+  "main": "./build/main/index.js",
   "license": "MIT",
   "private": true,
   "scripts": {
-    "start": "yarn build && electron build/main.js",
-    "restart": "electron build/main.js",
+    "start": "electron build/main/index.js",
     "test": "jest src",
     "coverage": "jest --coverage src",
     "type-check": "tsc --noEmit",
-    "type-check:watch": "yarn type-check -- --watch",
-    "build": "rimraf build && yarn build:types && yarn build:js && cp -r public/* build",
+    "build": "rimraf build && yarn build:types && yarn build:js && yarn build:public",
+    "watch": "rimraf build && yarn watch:types && yarn watch:js && yarn watch:public",
     "build:types": "tsc --emitDeclarationOnly",
-    "build:js": "babel src --out-dir build --extensions \".ts,.tsx\" --source-maps inline"
+    "watch:types": "tsc  --watch --emitDeclarationOnly  >/dev/null &",
+    "build:js": "babel src --out-dir build --extensions \".ts,.tsx\" --source-maps inline",
+    "watch:js": "babel --watch --quiet src --out-dir build --extensions \".ts,.tsx\" --source-maps inline &",
+    "build:public": "babel public --out-dir build --copy-files",
+    "watch:public": "babel --watch --quiet public --out-dir build --copy-files &"
   },
   "devDependencies": {
     "@babel/cli": "^7.8.4",

@@ -13,3 +13,11 @@ This is a very simple version of an electron todo app. The purpose wasn't to bui
 - Prettier support
 
 - Jest for testing (only one dummy test exists)
+
+## Scripts
+
+- watch - builds the app in the background as it changes. Use for development by running `watch` before `start`. When updates are made they can be immediately validated after a reload, i.e. after the electron reload command.
+
+- start - runs the app from the command
+
+- build - rebuilds the app from scratch
