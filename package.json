@@ -35,6 +35,6 @@
   },
   "dependencies": {
     "@types/jest": "^25.2.1",
-    "electron": "^8.2.1"
+    "electron": "^8.2.4"
   }
 }
